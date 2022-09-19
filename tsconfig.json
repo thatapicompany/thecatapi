@@ -1,0 +1,10 @@
+{
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "target": "ES2017",
+    "strict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "CommonJS"
+  }
+}
