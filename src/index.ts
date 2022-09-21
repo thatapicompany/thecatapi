@@ -1,4 +1,6 @@
 import ApiRequest from "./services/ApiRequest/ApiRequest";
+import { ImagesInterface } from "./endpoints/Images/ImagesInterface";
+import Images from "./endpoints/Images/Images";
 
 const HOST = "https://api.thecatapi.com/v1";
 
@@ -9,6 +11,7 @@ type Options = {
 class TheCatAPI {
   apiKey: string;
   host: string;
+  images: ImagesInterface;
 
   constructor(apiKey: string, options?: Options) {
     const host = options?.host ?? HOST;
@@ -18,6 +21,7 @@ class TheCatAPI {
       apiKey: apiKey,
       host,
     });
+    this.images = new Images(api);
   }
 }
 
