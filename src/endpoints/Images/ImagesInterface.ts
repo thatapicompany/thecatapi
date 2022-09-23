@@ -8,19 +8,25 @@ export type Image = {
 };
 
 export type GetImagesFilter = {
-    limit?: number,
-    page?: number,
-    order?: "ASC" | "DESC" | "RAND",
-    hasBreeds?: boolean,
-    breeds?: string[],
-    categories?: number[],
-    subId?: string,
-    mimeTypes?: ("jpg" | "png" | "gif")[],
-    format?: "json" | "src",
-    size?: "small" | "med" | "full",
+  limit?: number;
+  page?: number;
+  order?: "ASC" | "DESC" | "RAND";
+  hasBreeds?: boolean;
+  breeds?: string[];
+  categories?: number[];
+  subId?: string;
+  mimeTypes?: ("jpg" | "png" | "gif")[];
+  format?: "json" | "src";
+  size?: "small" | "med" | "full";
 };
+
+export type GetRandomImageFilter = Omit<
+  GetImagesFilter,
+  "limit" | "page" | "order"
+>;
 
 export interface ImagesInterface {
   getImages(filter?: GetImagesFilter): Promise<Image[]>;
   getImage(id: string): Promise<Image>;
+  getRandomImage(filter?: GetRandomImageFilter): Promise<Image | null>;
 }
