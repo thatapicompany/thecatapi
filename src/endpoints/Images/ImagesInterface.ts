@@ -22,4 +22,5 @@ export type GetImagesFilter = {
 
 export interface ImagesInterface {
   getImages(filter?: GetImagesFilter): Promise<Image[]>;
+  getImage(id: string): Promise<Image>;
 }
