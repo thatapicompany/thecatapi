@@ -22,13 +22,15 @@ class Images implements ImagesInterface {
       filters = Object.entries(filter)
         .map(([key, value]) => {
           if (key === "hasBreeds") {
-            return ["has_breeds", value];
+            return ["has_breeds", value ? 1 : 0];
           } else if (key === "breeds") {
             return ["breed_ids", (value as []).join(",")];
           } else if (key === "categories") {
             return ["category_ids", (value as []).join(",")];
           } else if (key === "mimeTypes") {
             return ["mime_types", (value as []).join(",")];
+          } else if (key === "subId") {
+            return ["sub_id", value];
           }
           return [key, value];
         })
