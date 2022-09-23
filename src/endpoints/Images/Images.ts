@@ -16,6 +16,13 @@ class Images implements ImagesInterface {
     return await this.api.request<Image[]>(HttpMethod.GET, endpoint);
   }
 
+  async getImage(id: string): Promise<Image> {
+    return await this.api.request<Image>(
+      HttpMethod.GET,
+      `${this.endpoint}/${id}`
+    );
+  }
+
   private getImagesEndpoint(filter?: GetImagesFilter): string {
     let filters: string[] = [];
     if (filter !== undefined) {

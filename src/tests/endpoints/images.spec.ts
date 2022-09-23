@@ -215,4 +215,15 @@ describe("Images", function () {
       expect(images).toEqual(response);
     });
   });
+
+  describe("getImage", function () {
+    it("should fetch an image", async () => {
+      const response = imagesResponse[0];
+      nock("https://api.thecatapi.com/v1/images")
+        .get(`/${response.id}`)
+        .reply(200, response);
+      const image = await theCatAPI.images.getImage(response.id);
+      expect(image).toEqual(response);
+    });
+  });
 });
