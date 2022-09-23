@@ -64,8 +64,7 @@ describe("Images", function () {
       const response = imagesResponse[0];
       nock("https://api.thecatapi.com/v1/images")
         .get("/search")
-        .reply(200, response)
-        .persist(true);
+        .reply(200, response);
       const images = await theCatAPI.images.getImages();
       expect(images).toEqual(response);
     });
@@ -224,6 +223,45 @@ describe("Images", function () {
         .reply(200, response);
       const image = await theCatAPI.images.getImage(response.id);
       expect(image).toEqual(response);
+    });
+  });
+
+  describe("getRandomImage", function () {
+    it("should fetch a random image", async () => {
+      const response = [imagesResponse[0]];
+      nock("https://api.thecatapi.com/v1/images")
+        .get("/search")
+        .reply(200, response);
+      const image = await theCatAPI.images.getRandomImage();
+      expect(image).toEqual(response[0]);
+    });
+    it("should fetch a random image with filters", async () => {
+      const response = [imagesResponse[0]];
+      nock("https://api.thecatapi.com/v1/images")
+        .get("/search")
+        .query({
+          has_breeds: 1,
+          breed_ids: "abys",
+          category_ids: 1,
+          format: "json",
+          size: "small",
+          mime_types: "jpg,png",
+        })
+        .reply(200, response);
+      const image = await theCatAPI.images.getRandomImage({
+        hasBreeds: true,
+        breeds: ["abys"],
+        categories: [1],
+        format: "json",
+        size: "small",
+        mimeTypes: ["jpg", "png"],
+      });
+      expect(image).toEqual(response[0]);
+    });
+    it("should return null if no image was found", async () => {
+      nock("https://api.thecatapi.com/v1/images").get("/search").reply(200, []);
+      const image = await theCatAPI.images.getRandomImage();
+      expect(image).toBeNull();
     });
   });
 });

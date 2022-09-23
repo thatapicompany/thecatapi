@@ -1,4 +1,9 @@
-import { GetImagesFilter, Image, ImagesInterface } from "./ImagesInterface";
+import {
+  GetImagesFilter,
+  GetRandomImageFilter,
+  Image,
+  ImagesInterface,
+} from "./ImagesInterface";
 import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
 import { ApiRequest } from "../../services/ApiRequest";
 
@@ -11,7 +16,7 @@ class Images implements ImagesInterface {
     this.endpoint = "/images";
   }
 
-  async getImages(filter: GetImagesFilter): Promise<Image[]> {
+  async getImages(filter?: GetImagesFilter): Promise<Image[]> {
     const endpoint = this.getImagesEndpoint(filter);
     return await this.api.request<Image[]>(HttpMethod.GET, endpoint);
   }
@@ -21,6 +26,14 @@ class Images implements ImagesInterface {
       HttpMethod.GET,
       `${this.endpoint}/${id}`
     );
+  }
+
+  async getRandomImage(filter?: GetRandomImageFilter): Promise<Image | null> {
+    const images = await this.getImages(filter);
+    if (images.length > 0) {
+      return images[0];
+    }
+    return null;
   }
 
   private getImagesEndpoint(filter?: GetImagesFilter): string {
