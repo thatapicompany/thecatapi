@@ -25,8 +25,16 @@ export type GetRandomImageFilter = Omit<
   "limit" | "page" | "order"
 >;
 
+export type UploadImageResponse = Omit<Image, "categories"> & {
+  sub_id?: string;
+  originalFilename: string;
+  pending: boolean;
+  approved: boolean;
+};
+
 export interface ImagesInterface {
   getImages(filter?: GetImagesFilter): Promise<Image[]>;
   getImage(id: string): Promise<Image>;
   getRandomImage(filter?: GetRandomImageFilter): Promise<Image | null>;
+  uploadImage(image: any, subId?: string): Promise<UploadImageResponse>;
 }
