@@ -1,3 +1,5 @@
+import * as stream from "stream";
+
 export type Image = {
   id: string;
   width: number;
@@ -36,5 +38,8 @@ export interface ImagesInterface {
   getImages(filter?: GetImagesFilter): Promise<Image[]>;
   getImage(id: string): Promise<Image>;
   getRandomImage(filter?: GetRandomImageFilter): Promise<Image | null>;
-  uploadImage(image: any, subId?: string): Promise<UploadImageResponse>;
+  uploadImage(
+    image: File | stream.Readable,
+    subId?: string
+  ): Promise<UploadImageResponse>;
 }
