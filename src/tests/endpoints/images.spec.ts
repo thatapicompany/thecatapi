@@ -1,5 +1,6 @@
 import nock from "nock";
 import TheCatAPI from "../../index";
+import * as Stream from "stream";
 
 const imagesResponse = [
   {
@@ -263,5 +264,48 @@ describe("Images", function () {
       const image = await theCatAPI.images.getRandomImage();
       expect(image).toBeNull();
     });
+  });
+
+  describe("uploadImage", function () {
+    it("should upload an image", async () => {
+      const response = {
+        id: "coDBFem0P",
+        url: "https://cdn2.thecatapi.com/images/coDBFem0P.jpg",
+        width: 1920,
+        height: 1271,
+        original_filename: "cat-1373446292aWW.jpg",
+        pending: 0,
+        approved: 1,
+      };
+      nock("https://api.thecatapi.com/v1/images")
+        .post("/upload")
+        .reply(201, response);
+      const readableStream = Stream.Readable.from(["test"]);
+      // this doesn't test whether we're actually sending the file or not
+      const uploadedImage = await theCatAPI.images.uploadImage(readableStream);
+      expect(uploadedImage).toEqual(response);
+    });
+    it("should upload an image with subId", async () => {
+      const response = {
+        id: "coDBFem0P",
+        url: "https://cdn2.thecatapi.com/images/coDBFem0P.jpg",
+        width: 1920,
+        height: 1271,
+        original_filename: "cat-1373446292aWW.jpg",
+        pending: 0,
+        approved: 1,
+        sub_id: "test_subId",
+      };
+      nock("https://api.thecatapi.com/v1/images")
+        .post("/upload")
+        .reply(201, response);
+      const readableStream = Stream.Readable.from(["test"]);
+      // this doesn't test whether we're actually sending the file or not
+      const uploadedImage = await theCatAPI.images.uploadImage(
+        readableStream,
+        response.sub_id
+      );
+      expect(uploadedImage).toEqual(response);
+    }, 20000);
   });
 });

@@ -3,9 +3,11 @@ import {
   GetRandomImageFilter,
   Image,
   ImagesInterface,
+  UploadImageResponse,
 } from "./ImagesInterface";
 import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
 import { ApiRequest } from "../../services/ApiRequest";
+import { createFormData } from "../../util/createFormData";
 
 class Images implements ImagesInterface {
   api: ApiRequest;
@@ -34,6 +36,21 @@ class Images implements ImagesInterface {
       return images[0];
     }
     return null;
+  }
+
+  async uploadImage(image: any, subId?: string): Promise<UploadImageResponse> {
+    const data = subId
+      ? {
+          file: image,
+          sub_id: subId,
+        }
+      : { file: image };
+    const formData = createFormData(data);
+    return await this.api.request<UploadImageResponse>(
+      HttpMethod.POST,
+      `${this.endpoint}/upload`,
+      formData
+    );
   }
 
   private getImagesEndpoint(filter?: GetImagesFilter): string {
