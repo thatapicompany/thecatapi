@@ -60,7 +60,7 @@ describe("Images", function () {
     theCatAPI = new TheCatAPI("my-api-key");
   });
 
-  describe("getImages", () => {
+  describe("searchImages", () => {
     it("should fetch images", async () => {
       const response = imagesResponse[0];
       nock("https://api.thecatapi.com/v1/images")
@@ -311,10 +311,136 @@ describe("Images", function () {
 
   describe("deleteImage", function () {
     it("should fetch an image", async () => {
-      nock("https://api.thecatapi.com/v1/images")
-        .delete(`/1b`)
-        .reply(204);
+      nock("https://api.thecatapi.com/v1/images").delete(`/1b`).reply(204);
       await theCatAPI.images.deleteImage("1b");
+    });
+  });
+
+  describe("getImages", function () {
+    it("should fetch uploaded images", async () => {
+      const response = [
+        {
+          breeds: [],
+          id: "P5hCKdU2r",
+          url: "https://cdn2.thecatapi.com/images/P5hCKdU2r.jpg",
+          width: 1420,
+          height: 800,
+          sub_id: null,
+          created_at: "2022-09-23T16:50:51.000Z",
+          original_filename: "1478140746024.jpg",
+          breed_ids: null,
+        },
+        {
+          breeds: [
+            {
+              id: "bure",
+              name: "Burmese",
+            },
+          ],
+          categories: [
+            {
+              id: 1,
+              name: "hats",
+            },
+          ],
+          id: "dNKC51aCz",
+          url: "https://cdn2.thecatapi.com/images/dNKC51aCz.jpg",
+          width: 1420,
+          height: 800,
+          sub_id: "fibi",
+          created_at: "2022-09-23T14:01:28.000Z",
+          original_filename: "1478140746024.jpg",
+          breed_ids: "bure",
+          vote: {
+            id: 604656,
+            value: 1,
+          },
+          favourite: {
+            id: 100075345,
+          },
+        },
+      ];
+      nock("https://api.thecatapi.com/v1")
+        .get("/images")
+        .query({ limit: 5 })
+        .reply(200, response);
+      const uploadedImages = await theCatAPI.images.getImages({ limit: 5 });
+      expect(uploadedImages).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            breeds: [],
+            id: "P5hCKdU2r",
+            url: "https://cdn2.thecatapi.com/images/P5hCKdU2r.jpg",
+            width: 1420,
+            height: 800,
+            subId: null,
+            createdAt: new Date("2022-09-23T16:50:51.000Z"),
+            originalFilename: "1478140746024.jpg",
+            breedId: null,
+          }),
+          expect.objectContaining({
+            breeds: [
+              {
+                id: "bure",
+                name: "Burmese",
+              },
+            ],
+            categories: [
+              {
+                id: 1,
+                name: "hats",
+              },
+            ],
+            id: "dNKC51aCz",
+            url: "https://cdn2.thecatapi.com/images/dNKC51aCz.jpg",
+            width: 1420,
+            height: 800,
+            subId: "fibi",
+            createdAt: new Date("2022-09-23T14:01:28.000Z"),
+            originalFilename: "1478140746024.jpg",
+            breedId: "bure",
+            vote: {
+              id: 604656,
+              value: 1,
+            },
+            favourite: {
+              id: 100075345,
+            },
+          }),
+        ])
+      );
+    });
+    it("should fetch uploaded images using filters", async () => {
+      nock("https://api.thecatapi.com/v1")
+        .get("/images")
+        .query({
+          limit: 12,
+          sub_id: "fibi123",
+          format: "json",
+          size: "med",
+          breed_ids: "abys",
+          has_breeds: 1,
+          order: "ASC",
+          page: 1,
+          category_ids: 1,
+          mime_types: "jpg,gif",
+          original_filename: "1.jpg",
+        })
+        .reply(200, []);
+      const uploadedImages = await theCatAPI.images.getImages({
+        limit: 12,
+        subId: "fibi123",
+        format: "json",
+        size: "med",
+        breeds: ["abys"],
+        hasBreeds: true,
+        order: "ASC",
+        page: 1,
+        categories: [1],
+        mimeTypes: ["jpg", "gif"],
+        originalFilename: "1.jpg",
+      });
+      expect(uploadedImages).toEqual([]);
     });
   });
 });

@@ -1,9 +1,13 @@
 import {
-  SearchImagesFilter,
+  GetImagesFilter,
   GetRandomImageFilter,
   Image,
   ImagesInterface,
+  mapUserImage,
+  SearchImagesFilter,
   UploadImageResponse,
+  UserImage,
+  UserImageResponse,
 } from "./ImagesInterface";
 import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
 import { ApiRequest } from "../../services/ApiRequest";
@@ -19,8 +23,11 @@ class Images implements ImagesInterface {
   }
 
   async searchImages(filter?: SearchImagesFilter): Promise<Image[]> {
-    const endpoint = this.getImagesEndpoint(filter);
-    return await this.api.request<Image[]>(HttpMethod.GET, endpoint);
+    const queryParams = this.buildQueryParams(filter);
+    return await this.api.request<Image[]>(
+      HttpMethod.GET,
+      `${this.endpoint}/search${queryParams}`
+    );
   }
 
   async getImage(id: string): Promise<Image> {
@@ -28,6 +35,15 @@ class Images implements ImagesInterface {
       HttpMethod.GET,
       `${this.endpoint}/${id}`
     );
+  }
+
+  async getImages(filter?: GetImagesFilter): Promise<UserImage[]> {
+    const queryParams = this.buildQueryParams(filter);
+    const images = await this.api.request<UserImageResponse[]>(
+      HttpMethod.GET,
+      `${this.endpoint}${queryParams}`
+    );
+    return images.map(mapUserImage);
   }
 
   async getRandomImage(filter?: GetRandomImageFilter): Promise<Image | null> {
@@ -57,29 +73,32 @@ class Images implements ImagesInterface {
     await this.api.request(HttpMethod.DELETE, `${this.endpoint}/${id}`);
   }
 
-  private getImagesEndpoint(filter?: SearchImagesFilter): string {
-    let filters: string[] = [];
-    if (filter !== undefined) {
-      filters = Object.entries(filter)
-        .map(([key, value]) => {
-          if (key === "hasBreeds") {
-            return ["has_breeds", value ? 1 : 0];
-          } else if (key === "breeds") {
-            return ["breed_ids", (value as []).join(",")];
-          } else if (key === "categories") {
-            return ["category_ids", (value as []).join(",")];
-          } else if (key === "mimeTypes") {
-            return ["mime_types", (value as []).join(",")];
-          } else if (key === "subId") {
-            return ["sub_id", value];
-          }
-          return [key, value];
-        })
-        .map(([key, value]) => `${key}=${value}`);
+  private buildQueryParams(
+    filter?: SearchImagesFilter | GetImagesFilter
+  ): string {
+    if (!filter) {
+      return "";
     }
-    return `${this.endpoint}/search${
-      filter !== undefined ? "?" : ""
-    }${filters.join("&")}`;
+    let filters: string[];
+    filters = Object.entries(filter)
+      .map(([key, value]) => {
+        if (key === "hasBreeds") {
+          return ["has_breeds", value ? 1 : 0];
+        } else if (key === "breeds") {
+          return ["breed_ids", (value as []).join(",")];
+        } else if (key === "categories") {
+          return ["category_ids", (value as []).join(",")];
+        } else if (key === "mimeTypes") {
+          return ["mime_types", (value as []).join(",")];
+        } else if (key === "subId") {
+          return ["sub_id", value];
+        } else if (key === "originalFilename") {
+          return ["original_filename", value];
+        }
+        return [key, value];
+      })
+      .map(([key, value]) => `${key}=${value}`);
+    return `?${filters.join("&")}`;
   }
 }
 
