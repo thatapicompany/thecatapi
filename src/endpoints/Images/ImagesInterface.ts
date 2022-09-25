@@ -42,4 +42,5 @@ export interface ImagesInterface {
     image: File | stream.Readable,
     subId?: string
   ): Promise<UploadImageResponse>;
+  deleteImage(id: string): Promise<void>;
 }
