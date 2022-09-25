@@ -308,4 +308,13 @@ describe("Images", function () {
       expect(uploadedImage).toEqual(response);
     }, 20000);
   });
+
+  describe("deleteImage", function () {
+    it("should fetch an image", async () => {
+      nock("https://api.thecatapi.com/v1/images")
+        .delete(`/1b`)
+        .reply(204);
+      await theCatAPI.images.deleteImage("1b");
+    });
+  });
 });

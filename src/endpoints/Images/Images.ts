@@ -53,6 +53,10 @@ class Images implements ImagesInterface {
     );
   }
 
+  async deleteImage(id: string): Promise<void> {
+    await this.api.request(HttpMethod.DELETE, `${this.endpoint}/${id}`);
+  }
+
   private getImagesEndpoint(filter?: GetImagesFilter): string {
     let filters: string[] = [];
     if (filter !== undefined) {
