@@ -1,5 +1,5 @@
 import {
-  GetImagesFilter,
+  SearchImagesFilter,
   GetRandomImageFilter,
   Image,
   ImagesInterface,
@@ -18,7 +18,7 @@ class Images implements ImagesInterface {
     this.endpoint = "/images";
   }
 
-  async getImages(filter?: GetImagesFilter): Promise<Image[]> {
+  async searchImages(filter?: SearchImagesFilter): Promise<Image[]> {
     const endpoint = this.getImagesEndpoint(filter);
     return await this.api.request<Image[]>(HttpMethod.GET, endpoint);
   }
@@ -31,7 +31,7 @@ class Images implements ImagesInterface {
   }
 
   async getRandomImage(filter?: GetRandomImageFilter): Promise<Image | null> {
-    const images = await this.getImages(filter);
+    const images = await this.searchImages(filter);
     if (images.length > 0) {
       return images[0];
     }
@@ -57,7 +57,7 @@ class Images implements ImagesInterface {
     await this.api.request(HttpMethod.DELETE, `${this.endpoint}/${id}`);
   }
 
-  private getImagesEndpoint(filter?: GetImagesFilter): string {
+  private getImagesEndpoint(filter?: SearchImagesFilter): string {
     let filters: string[] = [];
     if (filter !== undefined) {
       filters = Object.entries(filter)

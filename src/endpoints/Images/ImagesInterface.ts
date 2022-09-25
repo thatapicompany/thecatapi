@@ -9,7 +9,7 @@ export type Image = {
   categories?: Record<string, any>[];
 };
 
-export type GetImagesFilter = {
+export type SearchImagesFilter = {
   limit?: number;
   page?: number;
   order?: "ASC" | "DESC" | "RAND";
@@ -23,7 +23,7 @@ export type GetImagesFilter = {
 };
 
 export type GetRandomImageFilter = Omit<
-  GetImagesFilter,
+  SearchImagesFilter,
   "limit" | "page" | "order"
 >;
 
@@ -35,7 +35,7 @@ export type UploadImageResponse = Omit<Image, "categories"> & {
 };
 
 export interface ImagesInterface {
-  getImages(filter?: GetImagesFilter): Promise<Image[]>;
+  searchImages(filter?: SearchImagesFilter): Promise<Image[]>;
   getImage(id: string): Promise<Image>;
   getRandomImage(filter?: GetRandomImageFilter): Promise<Image | null>;
   uploadImage(

@@ -66,7 +66,7 @@ describe("Images", function () {
       nock("https://api.thecatapi.com/v1/images")
         .get("/search")
         .reply(200, response);
-      const images = await theCatAPI.images.getImages();
+      const images = await theCatAPI.images.searchImages();
       expect(images).toEqual(response);
     });
 
@@ -76,7 +76,7 @@ describe("Images", function () {
         .get("/search")
         .query({ limit: /^\d+$/ })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         limit: 2,
       });
       expect(images).toEqual(response);
@@ -88,7 +88,7 @@ describe("Images", function () {
         .get("/search")
         .query({ has_breeds: 1 })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         hasBreeds: true,
       });
       expect(images).toEqual(response);
@@ -102,7 +102,7 @@ describe("Images", function () {
         .get("/search")
         .query({ breed_ids: "abys" })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         breeds: ["abys"],
       });
       expect(images).toEqual(response);
@@ -116,7 +116,7 @@ describe("Images", function () {
         .get("/search")
         .query({ category_ids: 1 })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         categories: [1],
       });
       expect(images).toEqual(response);
@@ -128,7 +128,7 @@ describe("Images", function () {
         .get("/search")
         .query({ sub_id: "USR123" })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         subId: "USR123",
       });
       expect(images).toEqual(response);
@@ -140,7 +140,7 @@ describe("Images", function () {
         .get("/search")
         .query({ mime_types: "jpg,png" })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         mimeTypes: ["jpg", "png"],
       });
       expect(images).toEqual(response);
@@ -152,7 +152,7 @@ describe("Images", function () {
         .get("/search")
         .query({ format: "src" })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         format: "src",
       });
       expect(images).toEqual(response);
@@ -164,7 +164,7 @@ describe("Images", function () {
         .get("/search")
         .query({ page: 1, order: "ASC" })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         page: 1,
         order: "ASC",
       });
@@ -177,7 +177,7 @@ describe("Images", function () {
         .get("/search")
         .query({ order: "DESC" })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         order: "DESC",
       });
       expect(images).toEqual(response);
@@ -200,7 +200,7 @@ describe("Images", function () {
           size: "med",
         })
         .reply(200, response);
-      const images = await theCatAPI.images.getImages({
+      const images = await theCatAPI.images.searchImages({
         limit: 3,
         categories: [1],
         breeds: ["abys"],
