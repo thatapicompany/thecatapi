@@ -37,7 +37,9 @@ export function mapUserImage(response: UserImageResponse): UserImage {
   };
 }
 
-export function mapImageFilters(filter: GetImagesFilter | SearchImagesFilter) {
+export function mapImageFilters(
+  filter: GetImagesFilter | SearchImagesFilter
+): [string, any][] {
   return Object.entries(filter).map(([key, value]) => {
     if (key === "hasBreeds") {
       return ["has_breeds", value ? 1 : 0];

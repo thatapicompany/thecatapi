@@ -13,6 +13,7 @@ import {
   UserImageResponse,
 } from "./types";
 import { mapImageFilters, mapUploadedImage, mapUserImage } from "./mappers";
+import { buildQueryParams } from "../../util/buildQueryParams";
 
 class Images implements ImagesInterface {
   api: ApiRequest;
@@ -24,7 +25,7 @@ class Images implements ImagesInterface {
   }
 
   async searchImages(filter?: SearchImagesFilter): Promise<Image[]> {
-    const queryParams = this.buildQueryParams(filter);
+    const queryParams = filter ? buildQueryParams(filter, mapImageFilters) : "";
     return await this.api.request<Image[]>(
       HttpMethod.GET,
       `${this.endpoint}/search${queryParams}`
@@ -39,7 +40,7 @@ class Images implements ImagesInterface {
   }
 
   async getImages(filter?: GetImagesFilter): Promise<UserImage[]> {
-    const queryParams = this.buildQueryParams(filter);
+    const queryParams = filter ? buildQueryParams(filter, mapImageFilters) : "";
     const images = await this.api.request<UserImageResponse[]>(
       HttpMethod.GET,
       `${this.endpoint}${queryParams}`
@@ -73,18 +74,6 @@ class Images implements ImagesInterface {
 
   async deleteImage(id: string): Promise<void> {
     await this.api.request(HttpMethod.DELETE, `${this.endpoint}/${id}`);
-  }
-
-  private buildQueryParams(
-    filter?: SearchImagesFilter | GetImagesFilter
-  ): string {
-    if (!filter) {
-      return "";
-    }
-    const filters = mapImageFilters(filter).map(
-      ([key, value]) => `${key}=${value}`
-    );
-    return `?${filters.join("&")}`;
   }
 }
 
