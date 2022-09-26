@@ -12,7 +12,7 @@ import {
   UserImage,
   UserImageResponse,
 } from "./types";
-import { mapUploadedImage, mapUserImage } from "./mappers";
+import { mapImageFilters, mapUploadedImage, mapUserImage } from "./mappers";
 
 class Images implements ImagesInterface {
   api: ApiRequest;
@@ -81,25 +81,9 @@ class Images implements ImagesInterface {
     if (!filter) {
       return "";
     }
-    let filters: string[];
-    filters = Object.entries(filter)
-      .map(([key, value]) => {
-        if (key === "hasBreeds") {
-          return ["has_breeds", value ? 1 : 0];
-        } else if (key === "breeds") {
-          return ["breed_ids", (value as []).join(",")];
-        } else if (key === "categories") {
-          return ["category_ids", (value as []).join(",")];
-        } else if (key === "mimeTypes") {
-          return ["mime_types", (value as []).join(",")];
-        } else if (key === "subId") {
-          return ["sub_id", value];
-        } else if (key === "originalFilename") {
-          return ["original_filename", value];
-        }
-        return [key, value];
-      })
-      .map(([key, value]) => `${key}=${value}`);
+    const filters = mapImageFilters(filter).map(
+      ([key, value]) => `${key}=${value}`
+    );
     return `?${filters.join("&")}`;
   }
 }

@@ -1,4 +1,11 @@
-import { UploadedImage, UploadImageResponse, UserImage, UserImageResponse } from "./types";
+import {
+  GetImagesFilter,
+  SearchImagesFilter,
+  UploadedImage,
+  UploadImageResponse,
+  UserImage,
+  UserImageResponse,
+} from "./types";
 
 export function mapUploadedImage(response: UploadImageResponse): UploadedImage {
   return {
@@ -28,4 +35,23 @@ export function mapUserImage(response: UserImageResponse): UserImage {
     favourite: response.favourite,
     vote: response.vote,
   };
+}
+
+export function mapImageFilters(filter: GetImagesFilter | SearchImagesFilter) {
+  return Object.entries(filter).map(([key, value]) => {
+    if (key === "hasBreeds") {
+      return ["has_breeds", value ? 1 : 0];
+    } else if (key === "breeds") {
+      return ["breed_ids", (value as []).join(",")];
+    } else if (key === "categories") {
+      return ["category_ids", (value as []).join(",")];
+    } else if (key === "mimeTypes") {
+      return ["mime_types", (value as []).join(",")];
+    } else if (key === "subId") {
+      return ["sub_id", value];
+    } else if (key === "originalFilename") {
+      return ["original_filename", value];
+    }
+    return [key, value];
+  });
 }
