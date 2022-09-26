@@ -5,9 +5,21 @@ type BaseImage = {
   url: string;
 };
 
+type ImageSize = "small" | "med" | "full";
+
 export type Image = BaseImage & {
   breeds?: Record<string, any>[];
   categories?: Record<string, any>[];
+};
+
+export type GetImageOptions = {
+  subId?: string;
+  size?: ImageSize;
+};
+
+export type GetImage = Image & {
+  vote?: ImageVote;
+  favourite?: ImageFavourite;
 };
 
 export type SearchImagesFilter = {
@@ -20,7 +32,7 @@ export type SearchImagesFilter = {
   subId?: string;
   mimeTypes?: ("jpg" | "png" | "gif")[];
   format?: "json" | "src";
-  size?: "small" | "med" | "full";
+  size?: ImageSize;
 };
 
 export type GetRandomImageFilter = Omit<

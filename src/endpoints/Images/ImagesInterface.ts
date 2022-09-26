@@ -1,15 +1,18 @@
 import * as stream from "stream";
 import {
-  GetImagesFilter, GetRandomImageFilter,
+  GetImage,
+  GetImageOptions,
+  GetImagesFilter,
+  GetRandomImageFilter,
   Image,
   SearchImagesFilter,
   UploadedImage,
-  UserImage
+  UserImage,
 } from "./types";
 
 export interface ImagesInterface {
   searchImages(filter?: SearchImagesFilter): Promise<Image[]>;
-  getImage(id: string): Promise<Image>;
+  getImage(id: string, options?: GetImageOptions): Promise<GetImage>;
   getImages(filter?: GetImagesFilter): Promise<UserImage[]>;
   getRandomImage(filter?: GetRandomImageFilter): Promise<Image | null>;
   uploadImage(
