@@ -4,7 +4,6 @@ export function buildQueryParams(
 ): string {
   let _filters = Object.entries(filter);
   if (mapper) {
-    console.log("mapper?!");
     _filters = mapper(filter);
   }
   if (_filters.length === 0) {
