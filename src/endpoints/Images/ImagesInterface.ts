@@ -1,10 +1,13 @@
 import * as stream from "stream";
 
-export type Image = {
+type BaseImage = {
   id: string;
   width: number;
   height: number;
   url: string;
+};
+
+export type Image = BaseImage & {
   breeds?: Record<string, any>[];
   categories?: Record<string, any>[];
 };
@@ -27,12 +30,32 @@ export type GetRandomImageFilter = Omit<
   "limit" | "page" | "order"
 >;
 
-export type UploadImageResponse = Omit<Image, "categories"> & {
+export type UploadImageResponse = BaseImage & {
   sub_id?: string;
+  original_filename: string;
+  pending: number;
+  approved: number;
+};
+
+export type UploadedImage = BaseImage & {
+  subId?: string;
   originalFilename: string;
   pending: boolean;
   approved: boolean;
 };
+
+export function mapUploadedImage(response: UploadImageResponse): UploadedImage {
+  return {
+    id: response.id,
+    width: response.width,
+    height: response.height,
+    url: response.url,
+    subId: response.sub_id,
+    originalFilename: response.original_filename,
+    pending: Boolean(response.pending),
+    approved: Boolean(response.approved),
+  };
+}
 
 export type GetImagesFilter = SearchImagesFilter & {
   originalFilename?: string;
@@ -92,6 +115,6 @@ export interface ImagesInterface {
   uploadImage(
     image: File | stream.Readable,
     subId?: string
-  ): Promise<UploadImageResponse>;
+  ): Promise<UploadedImage>;
   deleteImage(id: string): Promise<void>;
 }
