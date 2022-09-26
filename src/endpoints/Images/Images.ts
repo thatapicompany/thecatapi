@@ -1,19 +1,18 @@
+import { ImagesInterface } from "./ImagesInterface";
+import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
+import { ApiRequest } from "../../services/ApiRequest";
+import { createFormData } from "../../util/createFormData";
 import {
   GetImagesFilter,
   GetRandomImageFilter,
   Image,
-  ImagesInterface,
-  mapUploadedImage,
-  mapUserImage,
   SearchImagesFilter,
   UploadedImage,
   UploadImageResponse,
   UserImage,
   UserImageResponse,
-} from "./ImagesInterface";
-import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
-import { ApiRequest } from "../../services/ApiRequest";
-import { createFormData } from "../../util/createFormData";
+} from "./types";
+import { mapUploadedImage, mapUserImage } from "./mappers";
 
 class Images implements ImagesInterface {
   api: ApiRequest;
