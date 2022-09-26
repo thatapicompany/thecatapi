@@ -225,6 +225,48 @@ describe("Images", function () {
       const image = await theCatAPI.images.getImage(response.id);
       expect(image).toEqual(response);
     });
+
+    it("should fetch an image uploaded by the user fetching it", async () => {
+      const response = {
+        ...imagesResponse[0],
+        vote: {
+          id: 604656,
+          value: 1,
+        },
+        favourite: {
+          id: 100075345,
+        },
+      };
+      nock("https://api.thecatapi.com/v1/images")
+        .get(`/${response.id}`)
+        .reply(200, response);
+      const image = await theCatAPI.images.getImage(response.id);
+      expect(image).toEqual(response);
+    });
+
+    it("should fetch an image using subId", async () => {
+      const response = imagesResponse[0];
+      nock("https://api.thecatapi.com/v1/images")
+        .get(`/${response.id}`)
+        .query({ sub_id: "fibi" })
+        .reply(200, response);
+      const image = await theCatAPI.images.getImage(response.id, {
+        subId: "fibi",
+      });
+      expect(image).toEqual(response);
+    });
+
+    it("should fetch an image using size", async () => {
+      const response = imagesResponse[0];
+      nock("https://api.thecatapi.com/v1/images")
+        .get(`/${response.id}`)
+        .query({ size: "med" })
+        .reply(200, response);
+      const image = await theCatAPI.images.getImage(response.id, {
+        size: "med",
+      });
+      expect(image).toEqual(response);
+    });
   });
 
   describe("getRandomImage", function () {

@@ -3,6 +3,8 @@ import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
 import { ApiRequest } from "../../services/ApiRequest";
 import { createFormData } from "../../util/createFormData";
 import {
+  GetImage,
+  GetImageOptions,
   GetImagesFilter,
   GetRandomImageFilter,
   Image,
@@ -32,10 +34,13 @@ class Images implements ImagesInterface {
     );
   }
 
-  async getImage(id: string): Promise<Image> {
-    return await this.api.request<Image>(
+  async getImage(id: string, options?: GetImageOptions): Promise<GetImage> {
+    const queryParams = options
+      ? buildQueryParams(options, mapImageFilters)
+      : "";
+    return await this.api.request<GetImage>(
       HttpMethod.GET,
-      `${this.endpoint}/${id}`
+      `${this.endpoint}/${id}${queryParams}`
     );
   }
 
