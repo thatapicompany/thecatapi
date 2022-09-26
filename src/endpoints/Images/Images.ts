@@ -3,8 +3,10 @@ import {
   GetRandomImageFilter,
   Image,
   ImagesInterface,
+  mapUploadedImage,
   mapUserImage,
   SearchImagesFilter,
+  UploadedImage,
   UploadImageResponse,
   UserImage,
   UserImageResponse,
@@ -54,7 +56,7 @@ class Images implements ImagesInterface {
     return null;
   }
 
-  async uploadImage(image: any, subId?: string): Promise<UploadImageResponse> {
+  async uploadImage(image: any, subId?: string): Promise<UploadedImage> {
     const data = subId
       ? {
           file: image,
@@ -62,11 +64,12 @@ class Images implements ImagesInterface {
         }
       : { file: image };
     const formData = createFormData(data);
-    return await this.api.request<UploadImageResponse>(
+    const uploadedImage = await this.api.request<UploadImageResponse>(
       HttpMethod.POST,
       `${this.endpoint}/upload`,
       formData
     );
+    return mapUploadedImage(uploadedImage);
   }
 
   async deleteImage(id: string): Promise<void> {

@@ -283,7 +283,16 @@ describe("Images", function () {
       const readableStream = Stream.Readable.from(["test"]);
       // this doesn't test whether we're actually sending the file or not
       const uploadedImage = await theCatAPI.images.uploadImage(readableStream);
-      expect(uploadedImage).toEqual(response);
+      expect(uploadedImage).toEqual({
+        id: "coDBFem0P",
+        url: "https://cdn2.thecatapi.com/images/coDBFem0P.jpg",
+        width: 1920,
+        height: 1271,
+        originalFilename: "cat-1373446292aWW.jpg",
+        pending: false,
+        approved: true,
+        subId: undefined,
+      });
     });
     it("should upload an image with subId", async () => {
       const response = {
@@ -303,9 +312,18 @@ describe("Images", function () {
       // this doesn't test whether we're actually sending the file or not
       const uploadedImage = await theCatAPI.images.uploadImage(
         readableStream,
-        response.sub_id
+        "test_subId"
       );
-      expect(uploadedImage).toEqual(response);
+      expect(uploadedImage).toEqual({
+        id: "coDBFem0P",
+        url: "https://cdn2.thecatapi.com/images/coDBFem0P.jpg",
+        width: 1920,
+        height: 1271,
+        originalFilename: "cat-1373446292aWW.jpg",
+        pending: false,
+        approved: true,
+        subId: "test_subId",
+      });
     }, 20000);
   });
 
