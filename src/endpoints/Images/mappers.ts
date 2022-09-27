@@ -1,5 +1,7 @@
 import {
   GetImagesFilter,
+  ImageAnalysis,
+  ImageAnalysisResponse,
   SearchImagesFilter,
   UploadedImage,
   UploadImageResponse,
@@ -56,4 +58,35 @@ export function mapImageFilters(
     }
     return [key, value];
   });
+}
+
+function _mapImageAnalysis(response: ImageAnalysisResponse): ImageAnalysis {
+  const labels = response.labels.map((label) => ({
+    confidence: label.Confidence,
+    instances: label.Instances?.map((instance) => ({
+      boundingBox: {
+        height: instance.BoundingBox.Height,
+        left: instance.BoundingBox.Left,
+        top: instance.BoundingBox.Top,
+        width: instance.BoundingBox.Width,
+      },
+      confidence: instance.Confidence,
+    })),
+    name: label.Name,
+    parents: label.Parents?.map((parent) => ({ name: parent.Name })),
+  }));
+
+  return {
+    labels,
+    moderationLabels: response.moderation_labels,
+    vendor: response.vendor,
+    imageId: response.image_id,
+    createdAt: response.created_at,
+  };
+}
+
+export function mapImageAnalysis(
+  response: ImageAnalysisResponse[]
+): ImageAnalysis[] {
+  return response.map(_mapImageAnalysis);
 }
