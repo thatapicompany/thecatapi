@@ -86,3 +86,51 @@ export type UserImage = Omit<Image, "breeds"> & {
   vote?: ImageVote;
   favourite?: ImageFavourite;
 };
+
+type ImageAnalysisLabel = {
+  confidence: number;
+  instances?: {
+    boundingBox: {
+      height: number;
+      left: number;
+      top: number;
+      width: number;
+    };
+    confidence: number;
+  }[];
+  name: string;
+  parents?: {
+    name: string;
+  }[];
+};
+
+export type ImageAnalysisResponse = {
+  labels: {
+    Confidence: number;
+    Instances?: {
+      BoundingBox: {
+        Height: number;
+        Left: number;
+        Top: number;
+        Width: number;
+      };
+      Confidence: number;
+    }[];
+    Name: string;
+    Parents?: {
+      Name: string;
+    }[];
+  }[];
+  moderation_labels: any[];
+  vendor: string;
+  image_id: string;
+  created_at: Date;
+};
+
+export type ImageAnalysis = {
+  labels: ImageAnalysisLabel[];
+  moderationLabels: any;
+  vendor: string;
+  imageId: string;
+  createdAt: Date;
+};
