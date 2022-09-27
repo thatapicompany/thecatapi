@@ -5,6 +5,7 @@ import {
   GetImagesFilter,
   GetRandomImageFilter,
   Image,
+  ImageAnalysis,
   SearchImagesFilter,
   UploadedImage,
   UserImage,
@@ -15,6 +16,7 @@ export interface ImagesInterface {
   getImage(id: string, options?: GetImageOptions): Promise<GetImage>;
   getImages(filter?: GetImagesFilter): Promise<UserImage[]>;
   getRandomImage(filter?: GetRandomImageFilter): Promise<Image | null>;
+  getImageAnalysis(id: string): Promise<ImageAnalysis[]>;
   uploadImage(
     image: File | stream.Readable,
     subId?: string
