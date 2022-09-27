@@ -198,4 +198,17 @@ describe("Favourites", () => {
       });
     });
   });
+
+  describe("deleteFavourite", () => {
+    it("should delete a favourite", async () => {
+      const response = {
+        message: "SUCCESS",
+      };
+      nock("https://api.thecatapi.com/v1/favourites")
+        .delete("/1150")
+        .reply(200, response);
+      const deletedFavourite = await theCatAPI.favourites.deleteFavourite(1150);
+      expect(deletedFavourite).toEqual(response);
+    });
+  });
 });
