@@ -21,3 +21,7 @@ export type Favourite = {
     url: string;
   };
 };
+
+export type DeleteFavourite = {
+  message: string;
+};
