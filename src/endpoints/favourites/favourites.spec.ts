@@ -132,4 +132,70 @@ describe("Favourites", () => {
       });
     });
   });
+
+  describe("addFavourite", () => {
+    it("should add a favourite", async () => {
+      const response = {
+        id: 100075311,
+        user_id: "7xmy56",
+        image_id: "dNKC51aCz",
+        sub_id: null,
+        created_at: "2022-09-25T09:26:25.000Z",
+        image: {
+          id: "dNKC51aCz",
+          url: "https://cdn2.thecatapi.com/images/dNKC51aCz.jpg",
+        },
+      };
+      nock("https://api.thecatapi.com/v1/favourites")
+        .post("", (body) => body.image_id === "dNKC51aCz")
+        .reply(201, response);
+      const favourite = await theCatAPI.favourites.addFavourite("dNKC51aCz");
+      expect(favourite).toEqual({
+        id: 100075311,
+        userId: "7xmy56",
+        imageId: "dNKC51aCz",
+        subId: null,
+        createdAt: new Date("2022-09-25T09:26:25.000Z"),
+        image: {
+          id: "dNKC51aCz",
+          url: "https://cdn2.thecatapi.com/images/dNKC51aCz.jpg",
+        },
+      });
+    });
+
+    it("should add a favourite with subId", async () => {
+      const response = {
+        id: 100075311,
+        user_id: "7xmy56",
+        image_id: "dNKC51aCz",
+        sub_id: "fibi",
+        created_at: "2022-09-25T09:26:25.000Z",
+        image: {
+          id: "dNKC51aCz",
+          url: "https://cdn2.thecatapi.com/images/dNKC51aCz.jpg",
+        },
+      };
+      nock("https://api.thecatapi.com/v1/favourites")
+        .post(
+          "",
+          (body) => body.image_id === "dNKC51aCz" && body.sub_id === "fibi"
+        )
+        .reply(201, response);
+      const favourite = await theCatAPI.favourites.addFavourite(
+        "dNKC51aCz",
+        "fibi"
+      );
+      expect(favourite).toEqual({
+        id: 100075311,
+        userId: "7xmy56",
+        imageId: "dNKC51aCz",
+        subId: "fibi",
+        createdAt: new Date("2022-09-25T09:26:25.000Z"),
+        image: {
+          id: "dNKC51aCz",
+          url: "https://cdn2.thecatapi.com/images/dNKC51aCz.jpg",
+        },
+      });
+    });
+  });
 });

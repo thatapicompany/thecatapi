@@ -33,6 +33,19 @@ class Favourites implements FavouritesInterface {
     );
     return mapFavourite(favourite);
   }
+
+  async addFavourite(imageId: string, subId?: string): Promise<Favourite> {
+    const data = {
+      image_id: imageId,
+      sub_id: subId,
+    };
+    const favourite = await this.api.request<FavouriteResponse>(
+      HttpMethod.POST,
+      this.endpoint,
+      data
+    );
+    return mapFavourite(favourite);
+  }
 }
 
 export default Favourites;
