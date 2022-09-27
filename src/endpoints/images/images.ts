@@ -1,4 +1,4 @@
-import { ImagesInterface } from "./ImagesInterface";
+import { ImagesInterface } from "./images.interface";
 import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
 import { ApiRequest } from "../../services/ApiRequest";
 import { createFormData } from "../../util/createFormData";

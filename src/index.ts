@@ -1,6 +1,6 @@
 import ApiRequest from "./services/ApiRequest/ApiRequest";
-import { ImagesInterface } from "./endpoints/Images/ImagesInterface";
-import Images from "./endpoints/Images/Images";
+import { ImagesInterface } from "./endpoints/images/images.interface";
+import Images from "./endpoints/images/images";
 
 const HOST = "https://api.thecatapi.com/v1";
 
