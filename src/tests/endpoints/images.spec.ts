@@ -503,4 +503,157 @@ describe("Images", function () {
       expect(uploadedImages).toEqual([]);
     });
   });
+
+  describe("getAnalysis", function () {
+    it("should fetch analysis of an image", async () => {
+      const response = [
+        {
+          labels: [
+            { Name: "Monk", Confidence: 99.57637023925781 },
+            { Name: "Human", Confidence: 99.57637023925781 },
+            { Name: "Person", Confidence: 99.57637023925781 },
+            { Name: "Cat", Confidence: 88.72314453125 },
+            { Name: "Mammal", Confidence: 88.72314453125 },
+            { Name: "Animal", Confidence: 88.72314453125 },
+            { Name: "Pet", Confidence: 88.72314453125 },
+          ],
+          moderation_labels: [],
+          vendor: "AWS Rekognition",
+          image_id: "air",
+          created_at: "2018-11-25T07:40:49.000Z",
+        },
+      ];
+      nock("https://api.thecatapi.com/v1/images")
+        .get(`/${response[0].image_id}/analysis`)
+        .reply(200, response);
+      const analysis = await theCatAPI.images.getImageAnalysis("air");
+      expect(analysis).toEqual([
+        {
+          labels: [
+            { name: "Monk", confidence: 99.57637023925781 },
+            { name: "Human", confidence: 99.57637023925781 },
+            { name: "Person", confidence: 99.57637023925781 },
+            { name: "Cat", confidence: 88.72314453125 },
+            { name: "Mammal", confidence: 88.72314453125 },
+            { name: "Animal", confidence: 88.72314453125 },
+            { name: "Pet", confidence: 88.72314453125 },
+          ],
+          moderationLabels: [],
+          vendor: "AWS Rekognition",
+          imageId: "air",
+          createdAt: new Date("2018-11-25T07:40:49.000Z"),
+        },
+      ]);
+    });
+    it("should fetch analysis of an image containing instances", async () => {
+      const response = [
+        {
+          labels: [
+            { Name: "Person", Confidence: 99.57637023925781 },
+            {
+              Name: "Cat",
+              Confidence: 88.72314453125,
+              Instances: [
+                {
+                  BoundingBox: {
+                    Width: 0.8077936768531799,
+                    Height: 0.9992132186889648,
+                    Left: 0,
+                    Top: 0,
+                  },
+                  Confidence: 96.725830078125,
+                },
+              ],
+            },
+          ],
+          moderation_labels: [],
+          vendor: "AWS Rekognition",
+          image_id: "air",
+          created_at: "2018-11-25T07:40:49.000Z",
+        },
+      ];
+      nock("https://api.thecatapi.com/v1/images")
+        .get(`/${response[0].image_id}/analysis`)
+        .reply(200, response);
+      const analysis = await theCatAPI.images.getImageAnalysis("air");
+      expect(analysis).toEqual([
+        {
+          labels: [
+            { name: "Person", confidence: 99.57637023925781 },
+            {
+              name: "Cat",
+              confidence: 88.72314453125,
+              instances: [
+                {
+                  boundingBox: {
+                    width: 0.8077936768531799,
+                    height: 0.9992132186889648,
+                    left: 0,
+                    top: 0,
+                  },
+                  confidence: 96.725830078125,
+                },
+              ],
+            },
+          ],
+          moderationLabels: [],
+          vendor: "AWS Rekognition",
+          imageId: "air",
+          createdAt: new Date("2018-11-25T07:40:49.000Z"),
+        },
+      ]);
+    });
+    it("should fetch analysis of an image containing parents", async () => {
+      const response = [
+        {
+          labels: [
+            {
+              Name: "Cat",
+              Confidence: 88.72314453125,
+              Instances: [],
+              Parents: [
+                {
+                  Name: "Cat",
+                },
+                {
+                  Name: "Pet",
+                },
+              ],
+            },
+          ],
+          moderation_labels: [],
+          vendor: "AWS Rekognition",
+          image_id: "air",
+          created_at: "2018-11-25T07:40:49.000Z",
+        },
+      ];
+      nock("https://api.thecatapi.com/v1/images")
+        .get(`/${response[0].image_id}/analysis`)
+        .reply(200, response);
+      const analysis = await theCatAPI.images.getImageAnalysis("air");
+      expect(analysis).toEqual([
+        {
+          labels: [
+            {
+              name: "Cat",
+              confidence: 88.72314453125,
+              instances: [],
+              parents: [
+                {
+                  name: "Cat",
+                },
+                {
+                  name: "Pet",
+                },
+              ],
+            },
+          ],
+          moderationLabels: [],
+          vendor: "AWS Rekognition",
+          imageId: "air",
+          createdAt: new Date("2018-11-25T07:40:49.000Z"),
+        },
+      ]);
+    });
+  });
 });

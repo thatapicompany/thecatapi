@@ -8,13 +8,20 @@ import {
   GetImagesFilter,
   GetRandomImageFilter,
   Image,
+  ImageAnalysis,
+  ImageAnalysisResponse,
   SearchImagesFilter,
   UploadedImage,
   UploadImageResponse,
   UserImage,
   UserImageResponse,
 } from "./types";
-import { mapImageFilters, mapUploadedImage, mapUserImage } from "./mappers";
+import {
+  mapImageAnalysis,
+  mapImageFilters,
+  mapUploadedImage,
+  mapUserImage,
+} from "./mappers";
 import { buildQueryParams } from "../../util/buildQueryParams";
 
 class Images implements ImagesInterface {
@@ -59,6 +66,14 @@ class Images implements ImagesInterface {
       return images[0];
     }
     return null;
+  }
+
+  async getImageAnalysis(id: string): Promise<ImageAnalysis[]> {
+    const analysis = await this.api.request<ImageAnalysisResponse[]>(
+      HttpMethod.GET,
+      `${this.endpoint}/${id}/analysis`
+    );
+    return mapImageAnalysis(analysis);
   }
 
   async uploadImage(image: any, subId?: string): Promise<UploadedImage> {
