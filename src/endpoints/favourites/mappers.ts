@@ -1,6 +1,6 @@
 import { Favourite, FavouriteResponse } from "./types";
 
-export function mapFavourites(response: FavouriteResponse): Favourite {
+export function mapFavourite(response: FavouriteResponse): Favourite {
   return {
     id: response.id,
     userId: response.user_id,
