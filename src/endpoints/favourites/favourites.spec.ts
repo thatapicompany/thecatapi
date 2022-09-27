@@ -101,4 +101,35 @@ describe("Favourites", () => {
       ]);
     });
   });
+
+  describe("getFavourite", () => {
+    it("should fetch a favourite", async () => {
+      const response = {
+        id: 100075311,
+        user_id: "7xmy56",
+        image_id: "dNKC51aCz",
+        sub_id: null,
+        created_at: "2022-09-25T09:26:25.000Z",
+        image: {
+          id: "dNKC51aCz",
+          url: "https://cdn2.thecatapi.com/images/dNKC51aCz.jpg",
+        },
+      };
+      nock("https://api.thecatapi.com/v1/favourites")
+        .get(`/${response.id}`)
+        .reply(200, response);
+      const favourite = await theCatAPI.favourites.getFavourite(response.id);
+      expect(favourite).toEqual({
+        id: 100075311,
+        userId: "7xmy56",
+        imageId: "dNKC51aCz",
+        subId: null,
+        createdAt: new Date("2022-09-25T09:26:25.000Z"),
+        image: {
+          id: "dNKC51aCz",
+          url: "https://cdn2.thecatapi.com/images/dNKC51aCz.jpg",
+        },
+      });
+    });
+  });
 });

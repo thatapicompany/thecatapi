@@ -2,7 +2,7 @@ import { ApiRequest } from "../../services/ApiRequest";
 import { FavouritesInterface } from "./favourites.interface";
 import { Favourite, FavouriteResponse } from "./types";
 import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
-import { mapFavourites } from "./mappers";
+import { mapFavourite } from "./mappers";
 import { buildQueryParams } from "../../util/buildQueryParams";
 import { mapImageFilters } from "../images/mappers";
 
@@ -23,7 +23,15 @@ class Favourites implements FavouritesInterface {
       HttpMethod.GET,
       `${this.endpoint}${queryParams}`
     );
-    return favourites.map(mapFavourites);
+    return favourites.map(mapFavourite);
+  }
+
+  async getFavourite(id: number): Promise<Favourite> {
+    const favourite = await this.api.request<FavouriteResponse>(
+      HttpMethod.GET,
+      `${this.endpoint}/${id}`
+    );
+    return mapFavourite(favourite);
   }
 }
 
