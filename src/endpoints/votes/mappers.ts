@@ -1,4 +1,4 @@
-import { Vote, VoteResponse } from "./types";
+import { GetVote, GetVoteResponse, Vote, VoteResponse } from "./types";
 
 export function mapVotes(response: VoteResponse): Vote {
   return {
@@ -9,5 +9,12 @@ export function mapVotes(response: VoteResponse): Vote {
     countryCode: response.country_code,
     createdAt: response.created_at,
     image: response.image,
+  };
+}
+
+export function mapVote(response: GetVoteResponse): GetVote {
+  return {
+    ...mapVotes(response),
+    userId: response.user_id,
   };
 }
