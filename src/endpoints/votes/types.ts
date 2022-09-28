@@ -22,3 +22,11 @@ export type Vote = {
   createdAt: Date;
   image: VoteImage;
 };
+
+export type GetVoteResponse = VoteResponse & {
+  user_id: string;
+}
+
+export type GetVote = Vote & {
+  userId: string;
+};
