@@ -1,6 +1,11 @@
 import { ApiRequest } from "../../services/ApiRequest";
 import { FavouritesInterface } from "./favourites.interface";
-import { DeleteFavourite, Favourite, FavouriteResponse } from "./types";
+import {
+  AddFavourite,
+  DeleteFavourite,
+  Favourite,
+  FavouriteResponse,
+} from "./types";
 import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
 import { mapFavourite } from "./mappers";
 import { buildQueryParams } from "../../util/buildQueryParams";
@@ -34,17 +39,16 @@ class Favourites implements FavouritesInterface {
     return mapFavourite(favourite);
   }
 
-  async addFavourite(imageId: string, subId?: string): Promise<Favourite> {
+  async addFavourite(imageId: string, subId?: string): Promise<AddFavourite> {
     const data = {
       image_id: imageId,
       sub_id: subId,
     };
-    const favourite = await this.api.request<FavouriteResponse>(
+    return await this.api.request<AddFavourite>(
       HttpMethod.POST,
       this.endpoint,
       data
     );
-    return mapFavourite(favourite);
   }
 
   async deleteFavourite(id: number): Promise<DeleteFavourite> {
