@@ -95,4 +95,39 @@ describe("Votes", () => {
       ]);
     });
   });
+
+  describe("getVotes", () => {
+    it("should fetch a vote", async () => {
+      const response = {
+        id: 604582,
+        user_id: "7xmy56",
+        image_id: "6ouipu94q",
+        sub_id: "my-user-1234",
+        created_at: "2022-09-25T08:12:12.000Z",
+        value: 1,
+        country_code: "DZ",
+        image: {
+          id: "6ouipu94q",
+          url: "https://cdn2.thecatapi.com/images/6ouipu94q.jpg",
+        },
+      };
+      nock("https://api.thecatapi.com/v1/votes")
+        .get(`/${response.id}`)
+        .reply(200, response);
+      const vote = await theCatAPI.votes.getVote(604582);
+      expect(vote).toEqual({
+        id: 604582,
+        userId: "7xmy56",
+        imageId: "6ouipu94q",
+        subId: "my-user-1234",
+        createdAt: new Date("2022-09-25T08:12:12.000Z"),
+        value: 1,
+        countryCode: "DZ",
+        image: {
+          id: "6ouipu94q",
+          url: "https://cdn2.thecatapi.com/images/6ouipu94q.jpg",
+        },
+      });
+    });
+  });
 });

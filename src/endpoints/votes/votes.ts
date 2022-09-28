@@ -1,10 +1,10 @@
 import { VotesInterface } from "./votes.interface";
 import { ApiRequest } from "../../services/ApiRequest";
-import { Vote, VoteResponse } from "./types";
+import { GetVote, GetVoteResponse, Vote, VoteResponse } from "./types";
 import { buildQueryParams } from "../../util/buildQueryParams";
 import { mapImageFilters } from "../images/mappers";
 import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
-import { mapVotes } from "./mappers";
+import { mapVote, mapVotes } from "./mappers";
 
 class Votes implements VotesInterface {
   api: ApiRequest;
@@ -24,6 +24,14 @@ class Votes implements VotesInterface {
       `${this.endpoint}${queryParams}`
     );
     return votes.map(mapVotes);
+  }
+
+  async getVote(id: number): Promise<GetVote> {
+    const vote = await this.api.request<GetVoteResponse>(
+      HttpMethod.GET,
+      `${this.endpoint}/${id}`
+    );
+    return mapVote(vote);
   }
 }
 
