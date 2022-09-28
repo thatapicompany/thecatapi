@@ -96,7 +96,7 @@ describe("Votes", () => {
     });
   });
 
-  describe("getVotes", () => {
+  describe("getVote", () => {
     it("should fetch a vote", async () => {
       const response = {
         id: 604582,
@@ -127,6 +127,64 @@ describe("Votes", () => {
           id: "6ouipu94q",
           url: "https://cdn2.thecatapi.com/images/6ouipu94q.jpg",
         },
+      });
+    });
+  });
+
+  describe("addVote", () => {
+    it("should add vote", async () => {
+      const response = {
+        message: "SUCCESS",
+        id: 605368,
+        image_id: "6ouipu94q",
+        value: 2,
+        country_code: "DZ",
+      };
+      nock("https://api.thecatapi.com/v1/votes")
+        .post("", (body) => body.image_id === "6ouipu94q" && body.value === 2)
+        .reply(201, response);
+      const vote = await theCatAPI.votes.addVote({
+        imageId: "6ouipu94q",
+        value: 2,
+      });
+      expect(vote).toEqual({
+        message: "SUCCESS",
+        id: 605368,
+        imageId: "6ouipu94q",
+        value: 2,
+        countryCode: "DZ",
+      });
+    });
+    it("should add vote with subId", async () => {
+      const response = {
+        message: "SUCCESS",
+        id: 605368,
+        image_id: "6ouipu94q",
+        value: 3,
+        country_code: "DZ",
+        sub_id: "fibi",
+      };
+      nock("https://api.thecatapi.com/v1/votes")
+        .post(
+          "",
+          (body) =>
+            body.image_id === "6ouipu94q" &&
+            body.sub_id === "fibi" &&
+            body.value === 3
+        )
+        .reply(201, response);
+      const vote = await theCatAPI.votes.addVote({
+        imageId: "6ouipu94q",
+        subId: "fibi",
+        value: 3,
+      });
+      expect(vote).toEqual({
+        message: "SUCCESS",
+        id: 605368,
+        imageId: "6ouipu94q",
+        value: 3,
+        countryCode: "DZ",
+        subId: "fibi",
       });
     });
   });

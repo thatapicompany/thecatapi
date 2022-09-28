@@ -1,10 +1,18 @@
 import { VotesInterface } from "./votes.interface";
 import { ApiRequest } from "../../services/ApiRequest";
-import { GetVote, GetVoteResponse, Vote, VoteResponse } from "./types";
+import {
+  AddVote,
+  AddVoteData,
+  AddVoteResponse,
+  GetVote,
+  GetVoteResponse,
+  Vote,
+  VoteResponse,
+} from "./types";
 import { buildQueryParams } from "../../util/buildQueryParams";
 import { mapImageFilters } from "../images/mappers";
 import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
-import { mapVote, mapVotes } from "./mappers";
+import { mapAddedVote, mapAddVoteData, mapVote, mapVotes } from "./mappers";
 
 class Votes implements VotesInterface {
   api: ApiRequest;
@@ -32,6 +40,16 @@ class Votes implements VotesInterface {
       `${this.endpoint}/${id}`
     );
     return mapVote(vote);
+  }
+
+  async addVote(data: AddVoteData): Promise<AddVote> {
+    const mappedData = mapAddVoteData(data);
+    const addedVote = await this.api.request<AddVoteResponse>(
+      HttpMethod.POST,
+      this.endpoint,
+      mappedData
+    );
+    return mapAddedVote(addedVote);
   }
 }
 
