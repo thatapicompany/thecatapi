@@ -22,6 +22,11 @@ export type Favourite = {
   };
 };
 
+export type AddFavourite = {
+  id: number;
+  message: string;
+};
+
 export type DeleteFavourite = {
   message: string;
 };
