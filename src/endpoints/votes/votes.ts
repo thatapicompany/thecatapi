@@ -4,7 +4,7 @@ import { Vote, VoteResponse } from "./types";
 import { buildQueryParams } from "../../util/buildQueryParams";
 import { mapImageFilters } from "../images/mappers";
 import { HttpMethod } from "../../services/ApiRequest/HttpMethod";
-import { mapVote } from "./mappers";
+import { mapVotes } from "./mappers";
 
 class Votes implements VotesInterface {
   api: ApiRequest;
@@ -23,7 +23,7 @@ class Votes implements VotesInterface {
       HttpMethod.GET,
       `${this.endpoint}${queryParams}`
     );
-    return votes.map(mapVote);
+    return votes.map(mapVotes);
   }
 }
 

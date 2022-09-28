@@ -1,6 +1,6 @@
 import { Vote, VoteResponse } from "./types";
 
-export function mapVote(response: VoteResponse): Vote {
+export function mapVotes(response: VoteResponse): Vote {
   return {
     id: response.id,
     subId: response.sub_id,
