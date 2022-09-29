@@ -3,6 +3,7 @@ import { HttpMethod } from "./HttpMethod";
 import ApiCall from "./ApiCall";
 import ApiRequestError from "./ApiRequestError";
 import ApiResponseError from "./ApiResponseError";
+import { LIBRARY_VERSION } from "../../version";
 
 type Config = {
   host: string;
@@ -10,9 +11,9 @@ type Config = {
 };
 
 class ApiRequest implements ApiCall {
-  host: string;
-  headers: Record<string, string | number | boolean>;
-  apiKey: string;
+  private readonly host: string;
+  private readonly headers: Record<string, string | number | boolean>;
+  private readonly apiKey: string;
 
   constructor(config: Config) {
     const { host, apiKey } = config;
@@ -23,7 +24,7 @@ class ApiRequest implements ApiCall {
     this._init();
   }
 
-  _init() {
+  private _init() {
     const isoDateFormat =
       /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
     function isIsoDateString(value: any): boolean {
@@ -78,11 +79,10 @@ class ApiRequest implements ApiCall {
     }
   }
 
-  _generateDefaultHeaders() {
+  private _generateDefaultHeaders() {
     return {
-      "user-agent": "the",
+      "user-agent": `thecatapi-client-node/${LIBRARY_VERSION}`,
       "x-api-key": this.apiKey,
-      "api-key": this.apiKey,
     };
   }
 }
