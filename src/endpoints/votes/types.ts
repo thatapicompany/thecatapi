@@ -56,3 +56,7 @@ export type AddVote = Omit<Vote, "createdAt" | "image" | "subId"> & {
   subId?: string;
   message: string;
 };
+
+export type DeleteVote = {
+  message: string;
+};
