@@ -13,19 +13,18 @@ type Options = {
 };
 
 class TheCatAPI {
-  apiKey: string;
-  host: string;
+  private readonly apiKey: string;
+  private readonly host: string;
   images: ImagesInterface;
   favourites: FavouritesInterface;
   votes: VotesInterface;
 
   constructor(apiKey: string, options?: Options) {
-    const host = options?.host ?? HOST;
     this.apiKey = apiKey;
-    this.host = host;
+    this.host = options?.host ?? HOST;
     const api = new ApiRequest({
       apiKey: apiKey,
-      host,
+      host: this.host,
     });
     this.images = new Images(api);
     this.favourites = new Favourites(api);
