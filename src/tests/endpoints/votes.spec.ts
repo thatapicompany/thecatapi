@@ -188,4 +188,17 @@ describe("Votes", () => {
       });
     });
   });
+
+  describe("deleteVote", () => {
+    it("should delete a vote", async () => {
+      const response = {
+        message: "SUCCESS",
+      };
+      nock("https://api.thecatapi.com/v1/votes")
+        .delete(`/${603649}`)
+        .reply(200, response);
+      const deletedResponse = await theCatAPI.votes.deleteVote(603649);
+      expect(deletedResponse).toEqual(response);
+    });
+  });
 });

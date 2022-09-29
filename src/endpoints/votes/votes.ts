@@ -4,6 +4,7 @@ import {
   AddVote,
   AddVoteData,
   AddVoteResponse,
+  DeleteVote,
   GetVote,
   GetVoteResponse,
   Vote,
@@ -50,6 +51,13 @@ class Votes implements VotesInterface {
       mappedData
     );
     return mapAddedVote(addedVote);
+  }
+
+  async deleteVote(id: number): Promise<DeleteVote> {
+    return await this.api.request<DeleteVote>(
+      HttpMethod.DELETE,
+      `${this.endpoint}/${id}`
+    );
   }
 }
 
