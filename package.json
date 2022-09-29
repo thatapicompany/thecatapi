@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "prebuild": "node -p \"'export const LIBRARY_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest ."
   },
   "repository": {
     "type": "git",
