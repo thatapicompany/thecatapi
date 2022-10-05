@@ -31,7 +31,6 @@ export type SearchImagesFilter = {
   categories?: number[];
   subId?: string;
   mimeTypes?: ("jpg" | "png" | "gif")[];
-  format?: "json" | "src";
   size?: ImageSize;
 };
 

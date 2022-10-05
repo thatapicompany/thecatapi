@@ -146,18 +146,6 @@ describe("Images", function () {
       expect(images).toEqual(response);
     });
 
-    it("should fetch images filtered by format", async () => {
-      const response = imagesResponse[0];
-      nock("https://api.thecatapi.com/v1/images")
-        .get("/search")
-        .query({ format: "src" })
-        .reply(200, response);
-      const images = await theCatAPI.images.searchImages({
-        format: "src",
-      });
-      expect(images).toEqual(response);
-    });
-
     it("should fetch images with pagination", async () => {
       const response = imagesResponse;
       nock("https://api.thecatapi.com/v1/images")
@@ -191,7 +179,6 @@ describe("Images", function () {
           limit: 3,
           category_ids: 1,
           breed_ids: "abys",
-          format: "json",
           order: "ASC",
           page: 1,
           sub_id: "USR123",
@@ -204,7 +191,6 @@ describe("Images", function () {
         limit: 3,
         categories: [1],
         breeds: ["abys"],
-        format: "json",
         order: "ASC",
         page: 1,
         subId: "USR123",
@@ -286,7 +272,6 @@ describe("Images", function () {
           has_breeds: 1,
           breed_ids: "abys",
           category_ids: 1,
-          format: "json",
           size: "small",
           mime_types: "jpg,png",
         })
@@ -295,7 +280,6 @@ describe("Images", function () {
         hasBreeds: true,
         breeds: ["abys"],
         categories: [1],
-        format: "json",
         size: "small",
         mimeTypes: ["jpg", "png"],
       });
@@ -476,7 +460,6 @@ describe("Images", function () {
         .query({
           limit: 12,
           sub_id: "fibi123",
-          format: "json",
           size: "med",
           breed_ids: "abys",
           has_breeds: 1,
@@ -490,7 +473,6 @@ describe("Images", function () {
       const uploadedImages = await theCatAPI.images.getImages({
         limit: 12,
         subId: "fibi123",
-        format: "json",
         size: "med",
         breeds: ["abys"],
         hasBreeds: true,
