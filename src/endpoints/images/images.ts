@@ -23,6 +23,7 @@ import {
   mapUserImage,
 } from "./mappers";
 import { buildQueryParams } from "../../util/buildQueryParams";
+import stream from "stream";
 
 class Images implements ImagesInterface {
   api: ApiRequest;
@@ -76,7 +77,10 @@ class Images implements ImagesInterface {
     return mapImageAnalysis(analysis);
   }
 
-  async uploadImage(image: any, subId?: string): Promise<UploadedImage> {
+  async uploadImage(
+    image: File | stream.Readable,
+    subId?: string
+  ): Promise<UploadedImage> {
     const data = subId
       ? {
           file: image,
