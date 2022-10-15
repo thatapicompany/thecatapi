@@ -1,5 +1,5 @@
 import nock from "nock";
-import TheCatAPI from "../../index";
+import { TheCatAPI } from "../../index";
 
 describe("Favourites", () => {
   let theCatAPI: TheCatAPI;
