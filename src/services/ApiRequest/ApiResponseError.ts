@@ -8,7 +8,7 @@
 class ApiResponseError extends Error {
   statusCode: number;
   data: any;
-  constructor(statusCode: number, data: object) {
+  constructor(statusCode: number, data: any) {
     super(`ApiResponseError (${statusCode})`);
     this.statusCode = statusCode;
     this.data = data;

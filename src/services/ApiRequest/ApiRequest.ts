@@ -69,7 +69,7 @@ class ApiRequest implements ApiCall {
         if (error.response) {
           throw new ApiResponseError(
             error.response.status,
-            error.response.data ?? error.response.statusText
+            error.response.data
           );
         } else if (error.request) {
           throw new ApiRequestError(error.message);
