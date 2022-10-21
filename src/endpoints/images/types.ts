@@ -29,7 +29,6 @@ export type SearchImagesFilter = {
   hasBreeds?: boolean;
   breeds?: string[];
   categories?: number[];
-  subId?: string;
   mimeTypes?: ("jpg" | "png" | "gif")[];
   size?: ImageSize;
 };
@@ -54,6 +53,7 @@ export type UploadedImage = BaseImage & {
 };
 
 export type GetImagesFilter = SearchImagesFilter & {
+  subId?: string;
   originalFilename?: string;
 };
 

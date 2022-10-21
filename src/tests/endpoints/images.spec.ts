@@ -122,18 +122,6 @@ describe("Images", function () {
       expect(images).toEqual(response);
     });
 
-    it("should fetch images filtered by sub_id", async () => {
-      const response = imagesResponse.filter((x) => x.sub_id === "USR123");
-      nock("https://api.thecatapi.com/v1/images")
-        .get("/search")
-        .query({ sub_id: "USR123" })
-        .reply(200, response);
-      const images = await theCatAPI.images.searchImages({
-        subId: "USR123",
-      });
-      expect(images).toEqual(response);
-    });
-
     it("should fetch images filtered by mime type", async () => {
       const response = imagesResponse[0];
       nock("https://api.thecatapi.com/v1/images")
@@ -181,7 +169,6 @@ describe("Images", function () {
           breed_ids: "abys",
           order: "ASC",
           page: 1,
-          sub_id: "USR123",
           mime_types: "jpg",
           has_breeds: 1,
           size: "med",
@@ -193,7 +180,6 @@ describe("Images", function () {
         breeds: ["abys"],
         order: "ASC",
         page: 1,
-        subId: "USR123",
         mimeTypes: ["jpg"],
         hasBreeds: true,
         size: "med",
