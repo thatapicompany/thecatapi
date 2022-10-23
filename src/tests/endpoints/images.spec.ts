@@ -1,6 +1,7 @@
 import nock from "nock";
 import { TheCatAPI } from "../../index";
 import * as Stream from "stream";
+import { Breed } from "../../endpoints/images/types";
 
 const imagesResponse = [
   {
@@ -103,7 +104,7 @@ describe("Images", function () {
         .query({ breed_ids: "abys" })
         .reply(200, response);
       const images = await theCatAPI.images.searchImages({
-        breeds: ["abys"],
+        breeds: [Breed.ABYSSINIAN],
       });
       expect(images).toEqual(response);
     });
@@ -177,7 +178,7 @@ describe("Images", function () {
       const images = await theCatAPI.images.searchImages({
         limit: 3,
         categories: [1],
-        breeds: ["abys"],
+        breeds: [Breed.ABYSSINIAN],
         order: "ASC",
         page: 1,
         mimeTypes: ["jpg"],
@@ -264,7 +265,7 @@ describe("Images", function () {
         .reply(200, response);
       const image = await theCatAPI.images.getRandomImage({
         hasBreeds: true,
-        breeds: ["abys"],
+        breeds: [Breed.ABYSSINIAN],
         categories: [1],
         size: "small",
         mimeTypes: ["jpg", "png"],
@@ -447,7 +448,7 @@ describe("Images", function () {
           limit: 12,
           sub_id: "fibi123",
           size: "med",
-          breed_ids: "abys",
+          breed_ids: "abys,tang",
           has_breeds: 1,
           order: "ASC",
           page: 1,
@@ -460,7 +461,7 @@ describe("Images", function () {
         limit: 12,
         subId: "fibi123",
         size: "med",
-        breeds: ["abys"],
+        breeds: [Breed.ABYSSINIAN, Breed.TURKISH_ANGORA],
         hasBreeds: true,
         order: "ASC",
         page: 1,
