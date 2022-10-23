@@ -22,7 +22,7 @@ export interface ImagesInterface {
    * @param [filter.page] - used for paginating through all the results. Only used when order is ASC or DESC
    * @param [filter.limit] - number of images to be returned
    * @param [filter.categories] - list of unique category ids that represent a category
-   * @param [filter.breeds] - list of unique 4 character ids that represent a breed
+   * @param [filter.breeds] - breed enums
    * @param [filter.hasBreeds] - only return images which have breed data attached
    * @returns list of images matching the filter criteria
    */
@@ -49,7 +49,7 @@ export interface ImagesInterface {
    * @param [filter.page] - used for paginating through all the results. Only used when order is ASC or DESC
    * @param [filter.limit] - number of images to be returned
    * @param [filter.categories] - list of unique category ids that represent a category
-   * @param [filter.breeds] - list of unique 4 character ids that represent a breed
+   * @param [filter.breeds] - breed enums
    * @param [filter.hasBreeds] - only return images which have breed data attached
    * @param [filter.subId] - custom id (provided when uploading the image)
    * @param [filter.originalFilename] - original file name of the uploaded image
@@ -64,7 +64,7 @@ export interface ImagesInterface {
    * @param [filter.size] - size of the image
    * @param [filter.mime_types] - format of the image
    * @param [filter.categories] - list of unique category ids that represent a category
-   * @param [filter.breeds] - list of unique 4 character ids that represent a breed
+   * @param [filter.breeds] - breed enums
    * @param [filter.hasBreeds] - only return an image with breed data attached
    * @returns image matching the filter criteria, null if no image exists that matches the filter
    */
