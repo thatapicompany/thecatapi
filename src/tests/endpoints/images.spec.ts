@@ -1,7 +1,6 @@
 import nock from "nock";
-import { TheCatAPI } from "../../index";
+import { Breed, TheCatAPI } from "../../index";
 import * as Stream from "stream";
-import { Breed } from "../../endpoints/images/types";
 
 const imagesResponse = [
   {
