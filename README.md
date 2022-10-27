@@ -5,11 +5,14 @@
 - [Client library for TheCatAPI](#client-library-for-thecatapihttpsthecatapicom)
   - [Installation](#installation)
   - [Configuration](#configuration)
+  - [Documentation](#documentation)
   - [Usage](#usage)
     - [Example: Fetching random images](#example-fetching-random-images)
     - [Handling Errors](#handling-errors)
     - [Typescript](#typescript)
     - [📙 Further Reading](#-further-reading)
+
+Public API service, all about cats (or dogs), free to use when making your fancy new app, website or service
 
 ## Installation
 
@@ -53,6 +56,10 @@ const theCatAPI = new TheCatAPI("YOUR_API_KEY", {
   host: "https://api.thedogapi.com/v1",
 });
 ```
+
+## Documentation
+
+The library documentation can be found in [docs](docs)
 
 ## Usage
 
@@ -101,6 +108,20 @@ theCatAPI.images
 try {
   const images = await theCatAPI.images.searchImages({
     limit: 6,
+  });
+  console.log(images);
+} catch (error) {
+  // handle error
+}
+```
+
+#### Example: Fetching random images of a specific bread
+
+```js
+try {
+  const images = await theCatAPI.images.searchImages({
+    limit: 10,
+    breeds: [Breed.CHARTREUX],
   });
   console.log(images);
 } catch (error) {
@@ -187,13 +208,14 @@ try {
 
 ### Typescript
 
-This library is written in [Typescript](https://www.typescriptlang.org/), types are provided out of the box.
+This library is written in [Typescript](https://www.typescriptlang.org/), types are provided out of the box and
+can be imported from `@thatapicompany/thecatapi/dist/types`
 
 Example of usage with Typescript:
 
 ```typescript
-import { TheCatAPI } from "thecatapi1234";
-import { Image } from "thecatapi1234/dist/types";
+import { TheCatAPI } from "@thatapicompany/thecatapi";
+import { Image } from "@thatapicompany/thecatapi/dist/types";
 
 const theCatAPI = new TheCatAPI("YOUR_API_KEY");
 
