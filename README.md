@@ -61,6 +61,10 @@ const theCatAPI = new TheCatAPI("YOUR_API_KEY", {
 
 The library documentation can be found in [docs](docs)
 
+## Examples
+
+More code samples can be found in [examples](examples)
+
 ## Usage
 
 After initiating the client, you can access endpoint methods using the following pattern:
