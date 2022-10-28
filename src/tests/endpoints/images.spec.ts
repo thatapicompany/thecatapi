@@ -1,5 +1,5 @@
 import nock from "nock";
-import { Breed, TheCatAPI } from "../../index";
+import { Breed, Category, TheCatAPI } from "../../index";
 import * as Stream from "stream";
 
 const imagesResponse = [
@@ -117,7 +117,7 @@ describe("Images", function () {
         .query({ category_ids: 1 })
         .reply(200, response);
       const images = await theCatAPI.images.searchImages({
-        categories: [1],
+        categories: [Category.HATS],
       });
       expect(images).toEqual(response);
     });
@@ -176,7 +176,7 @@ describe("Images", function () {
         .reply(200, response);
       const images = await theCatAPI.images.searchImages({
         limit: 3,
-        categories: [1],
+        categories: [Category.HATS],
         breeds: [Breed.ABYSSINIAN],
         order: "ASC",
         page: 1,
@@ -265,7 +265,7 @@ describe("Images", function () {
       const image = await theCatAPI.images.getRandomImage({
         hasBreeds: true,
         breeds: [Breed.ABYSSINIAN],
-        categories: [1],
+        categories: [Category.HATS],
         size: "small",
         mimeTypes: ["jpg", "png"],
       });
@@ -464,7 +464,7 @@ describe("Images", function () {
         hasBreeds: true,
         order: "ASC",
         page: 1,
-        categories: [1],
+        categories: [Category.HATS],
         mimeTypes: ["jpg", "gif"],
         originalFilename: "1.jpg",
       });

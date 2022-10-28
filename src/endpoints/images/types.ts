@@ -1,4 +1,5 @@
 import { Breed } from "./breed.enum";
+import { Category } from "./category.enum";
 
 type BaseImage = {
   id: string;
@@ -30,7 +31,7 @@ export type SearchImagesFilter = {
   order?: "ASC" | "DESC" | "RAND";
   hasBreeds?: boolean;
   breeds?: Breed[];
-  categories?: number[];
+  categories?: Category[];
   mimeTypes?: ("jpg" | "png" | "gif")[];
   size?: ImageSize;
 };
